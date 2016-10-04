@@ -1,0 +1,44 @@
+﻿<!doctype html>
+<!--
+ This page is shown when the extension button is clicked, because the
+ "browser_action" field in manifest.json contains the "default_popup" key with
+ value "popup.html".
+ -->
+<html>
+<head>
+    <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/lib/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" />
+    <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
+
+    <link href="/css/popup.css" rel="stylesheet" />
+    <script src="/js/popup.js"></script>
+</head> 
+<body class="fluid-container">
+    <h1>Home Teaching Board <small>lds.org</small></h1>
+    <p class="bg-warning">In order to use the Home Teaching Board you must have access to edit home teaching companionships for your quorum or group.</p>
+    
+    <h3>How to get to the board</h3>
+    <ol>
+        <li>Log in to lds.org</li>
+        <li>Navigate to the Home Teaching page (Leader and Clerk Resources > Organizations > Home Teaching)</li>
+        <li>Open the Companionships tab</li>
+        <li>Click on the View as Board button on the right</li>
+    </ol>
+
+    <h3>How to use the board</h3>
+    <ul>
+        <li>The board will come loaded with the current districts, companionships, and assignments set up for your quorum.</li>
+        <li>At the bottom is also a list of unassigned home teachers and a list of households that have not been assigned home teachers.</li>
+        <li>Almost everything on the board can be dragged and dropped somewhere else.</li>
+        <li>Items that can be dragged will highlight when you hover over them.</li>
+        <li>When dragging, valid drop locations will also highlight.</li>
+        <li class="bg-warning">Currently, changes made on the board are NOT saved on lds.org. The board is meant to act as a canvas for visualizing changes before finalizing them. The ability to save changes made in the board to lds.org will be added later.</li>
+        <li>The Save button at the bottom will save the state of the board in your browser's storage, overwriting any previous saved board. The saved board will persist even if you close your browser.</li>
+        <li>The Load button at the bottom will load the state of the previously saved board.</li>
+    </ul>
+    <br />
+    <br />
+    <h4>Feedback</h4>
+    <p>If you have feedback, such as suggestions or issues, contact me at <a href="mailto:trevorburbidge@msn.com">trevorburbidge@msn.com</a></p>
+</body>
+</html>

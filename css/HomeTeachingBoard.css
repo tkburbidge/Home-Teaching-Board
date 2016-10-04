@@ -1,0 +1,127 @@
+﻿#ViewAsBoard { margin-right: 5px; }
+
+html.view-as-board { overflow: hidden }
+
+div#HomeTeachingBoard {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: white;
+    z-index: 1030;
+    overflow: auto;
+} 
+
+html:not(.view-as-board) #BoardWrapper {
+    display: none;
+}
+
+#BoardWrapper * {
+    box-sizing: border-box;
+}
+
+#HomeTeachingBoard #MenuBar {
+    height: 25px;
+    border-bottom: 1px solid gainsboro;
+}
+
+#HomeTeachingBoard #LeftMenuButtons {
+    float: left;
+}
+
+    #HomeTeachingBoard #LeftMenuButtons button {
+        padding: 0px 10px !important;
+        border-radius: 0;
+        border: none;
+        box-shadow: none;
+        height: 24px;
+        line-height: 24px;
+    }
+
+
+#HomeTeachingBoard #RightMenuButtons {
+    float: right;
+}
+
+#HomeTeachingBoard #MenuBar button {
+    background: white;
+    border: none;
+    padding: 4px 8px;
+}
+    #HomeTeachingBoard #MenuBar button:hover {
+        background-color: gainsboro;
+    }
+
+
+#HomeTeachingBoard #HTBDistricts {
+    display: table;
+    width: 100%;
+    padding: 10px;
+}
+
+#HomeTeachingBoard .htb-district {
+    display: table-cell;
+    min-width: 300px;
+    padding: 5px;
+    /*border-right: 1px solid gainsboro;*/
+    /*margin: 3px;*/
+}
+
+#HomeTeachingBoard .htb-district-name {
+    margin: 0px;
+}
+
+#HomeTeachingBoard .htb-district-leader {
+    margin-top: 0;
+}
+
+#HomeTeachingBoard .htb-companionship {
+    border: 1px solid gainsboro;
+    padding: 10px 0;
+    margin: 10px 0;
+    /*height: 112px;*/
+}
+
+#HomeTeachingBoard .htb-teachers {
+    float: left; 
+    width: 40%;
+}
+
+#HomeTeachingBoard .htb-assignments {
+    float: right;
+    width: 60%;
+    text-align: right;
+}
+
+#HomeTeachingBoard .htb-teacher,
+#HomeTeachingBoard .htb-assignment,
+#HomeTeachingBoard .htb-unassigned-teacher,
+#HomeTeachingBoard .htb-unassigned-household {
+    padding: 5px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+[draggable] {
+    cursor: move !important;
+}
+
+[draggable].hover {
+    background-color: #d4e7ff;
+}
+
+.drop-hover {
+    background-color: gainsboro;
+}
+
+.ui-draggable-dragging {
+    background: white;
+}
+
+#HomeTeachingBoard #HTBUnassignedTeachers,
+#HomeTeachingBoard #HTBUnassignedHouseholds {
+    float: left;
+    width: 300px;
+}
