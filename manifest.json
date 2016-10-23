@@ -23,23 +23,23 @@
         ],
         "css": [
           "lib/jquery-ui/jquery-ui.min.css",
-          "lib/font-awesome/css/font-awesome.min.css",
+          "node_modules/font-awesome/css/font-awesome.min.css",
           "css/HomeTeachingBoard.css"
         ],
         "js": [
-          "lib/jquery/dist/jquery.min.js",
+          "node_modules/jquery/dist/jquery.min.js",
           "lib/jquery-ui/jquery-ui.min.js",
-          "lib/angular/angular.min.js",
-          "lib/bootstrap/js/bootstrap.min.js",
-          "lib/angular-ui-bootstrap/ui-bootstrap-tpls-2.1.4.min.js",
-          "lib/chance/chance.min.js",
+          "node_modules/angular/angular.min.js",
+          "node_modules/bootstrap/dist/js/bootstrap.min.js",
+          "node_modules/chance/dist/chance.min.js",
           "js/HomeTeachingBoard.js"
         ],
         "run_at": "document_end"
       }
     ],
-    "web_accessible_resources": [
-      "html/HomeTeachingBoard.html",
-      "lib/font-awesome/fonts/*.*"
-    ]
+  "web_accessible_resources": [
+    //"*"
+    "html/HomeTeachingBoard.html",
+    "lib/font-awesome/fonts/*.*"
+  ]
   }
