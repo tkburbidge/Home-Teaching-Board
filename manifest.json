@@ -3,7 +3,7 @@
 
   "name": "Home Teaching Board - lds.org (Beta)",
   "description": "(Beta) View your home teaching companionships and assignments in a full-screen drag and drop style board.",
-  "version": "0.4",
+  "version": "0.5",
 
   "browser_action": {
     "default_icon": "images/icon.png",
@@ -38,7 +38,6 @@
       }
     ],
   "web_accessible_resources": [
-    //"*"
     "html/HomeTeachingBoard.html",
     "lib/font-awesome/fonts/*.*"
   ]
