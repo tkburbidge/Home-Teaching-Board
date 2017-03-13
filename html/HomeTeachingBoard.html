@@ -1,4 +1,6 @@
-﻿<div id="HomeTeachingBoard" ng-controller="HomeTeachingBoardController">
+﻿<link href="#" rel="stylesheet" />
+
+<div id="HomeTeachingBoard" ng-controller="HomeTeachingBoardController">
 
     <div id="MenuBar">
         <div id="LeftMenuButtons">
@@ -21,14 +23,14 @@
             <h2 class="htb-district-name">{{district.name}}</h2>
             <h5 class="htb-district-leader">{{district.districtLeader}}</h5>
             <div class="htb-companionships" droppable="companionship">
-                <div class="htb-companionship clearfix" ng-repeat="companionship in district.companionships" droppable="teacher assignment" draggable="companionship">
+                <div class="htb-companionship clearfix" ng-class="{ 'moved': companionship.moved }" ng-repeat="companionship in district.companionships" droppable="teacher assignment" draggable="companionship">
                     <div class="htb-teachers">
-                        <div class="htb-teacher" ng-repeat="teacher in companionship.teachers" draggable="teacher">
+                        <div class="htb-teacher" ng-class="{ 'moved' : teacher.moved }" ng-repeat="teacher in companionship.teachers" draggable="teacher">
                             {{teacher.name}}
                         </div>
                     </div>
                     <div class="htb-assignments">
-                        <div class="htb-assignment" ng-repeat="assignment in companionship.assignments" draggable="assignment">
+                        <div class="htb-assignment" ng-class="{ 'moved' : assignment.moved }" ng-repeat="assignment in companionship.assignments" draggable="assignment">
                             {{assignment.name}}
                         </div>
                     </div>
@@ -42,15 +44,35 @@
 
     <div id="HTBUnassignedTeachers" droppable="teacher">
         <h2>Unassigned Home Teachers</h2>
-        <div class="htb-unassigned-teacher" ng-repeat="unassignedTeacher in unassignedTeachers" draggable="teacher">
+        <p>
+            <label>
+                <input type="checkbox" ng-model="showHiddenTeachers" />
+                Show Hidden
+            </label>
+        </p>
+        <div class="htb-unassigned-teacher hoverable" ng-repeat="unassignedTeacher in unassignedTeachers" draggable="teacher" ng-hide="unassignedTeacher.hidden && !showHiddenTeachers">
             {{unassignedTeacher.name}}
+            <a class="pull-right hover-show" ng-click="toggleTeacherVisibilityClicked(unassignedTeacher)">
+                <span ng-hide="unassignedTeacher.hidden">Hide</span>
+                <span ng-hide="!unassignedTeacher.hidden">Unhide</span>
+            </a>
         </div>
     </div>
 
     <div id="HTBUnassignedHouseholds" droppable="assignment">
         <h2>Unassigned Households</h2>
-        <div class="htb-unassigned-household" ng-repeat="unassignedHousehold in unassignedHouseholds" draggable="assignment">
+        <p>
+            <label>
+                <input type="checkbox" ng-model="showHiddenHouseholds" />
+                Show Hidden
+            </label>
+        </p>
+        <div class="htb-unassigned-household hoverable" ng-repeat="unassignedHousehold in unassignedHouseholds" draggable="assignment" ng-hide="unassignedHousehold.hidden && !showHiddenHouseholds">
             {{unassignedHousehold.name}}
+            <a class="pull-right hover-show" ng-click="toggleHouseholdVisibilityClicked(unassignedHousehold)">
+                <span ng-hide="unassignedHousehold.hidden">Hide</span>
+                <span ng-hide="!unassignedHousehold.hidden">Unhide</span>
+            </a>
         </div>
     </div>
 

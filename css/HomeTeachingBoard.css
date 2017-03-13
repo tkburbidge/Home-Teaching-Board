@@ -124,4 +124,22 @@ html:not(.view-as-board) #BoardWrapper {
 #HomeTeachingBoard #HTBUnassignedHouseholds {
     float: left;
     width: 300px;
+    margin: 10px 50px;
+}
+
+.htb-companionship.moved {
+    background-color: lightyellow;
+}
+.htb-assignment.moved, 
+.htb-teacher.moved {
+    /*color: #fcb257;*/
+    font-weight: bold;
+}
+.htb-assignment.moved::before, 
+.htb-teacher.moved::before {
+    /*content: '*';*/
+}
+
+.hoverable:not(:hover) .hover-show {
+    display: none;
 }

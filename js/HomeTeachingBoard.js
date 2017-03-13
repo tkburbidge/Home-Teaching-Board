@@ -2,9 +2,10 @@
 function getDistricts(callback) {
     "use strict";
     var code = function () {
-        //We have access to topframe - no longer a contentscript          
-        var scopeDistricts = $('[ng-controller="HeaderCtrl"]').scope().districts;
-
+        //We have access to topframe - no longer a contentscript       
+        var ldsOrgScope = $('[ng-controller="HeaderCtrl"]').scope();
+        var scopeDistricts = ldsOrgScope.districts;
+        var currentAuxiliaryID = ldsOrgScope.getCurrentAuxiliary().id;
         var assignedTeacherIDs = [];
         var assignedHouseholdIDs = [];
         var districts = scopeDistricts.map(function (district) {
@@ -17,15 +18,17 @@ function getDistricts(callback) {
                         assignments: comp.assignments.map(function (assignment) {
                             assignedHouseholdIDs.push(assignment.individualId);
                             return {
-                                name: /*chance.name({ gender: "male" }),//*/ assignment.individual.formattedName,
-                                id: assignment.individualId
+                                name: /*chance.name({ gender: "male" }),//*/ assignment.individual.family.formattedCoupleName,
+                                id: assignment.individualId,
+                                //isInCurrentAuxiliary: true
                             }
                         }),
                         teachers: comp.teachers.map(function (teacher) {
                             assignedTeacherIDs.push(teacher.individualId);
                             return {
                                 name: /*chance.name({ gender: "male" }),//*/teacher.individual.formattedName,
-                                id: teacher.individualId
+                                id: teacher.individualId,
+                                //isInCurrentAuxiliary: true
                             }
                         })
                     };
@@ -37,13 +40,14 @@ function getDistricts(callback) {
 
         var overViewScope = $('.accordion').scope();
         var unassignedTeachers = [];
+        var hiddenTeachers = JSON.parse(localStorage.getItem("hiddenUnassignedTeacherIDs")) || [];
         $.each(overViewScope.potentialTeachers, function (i, teacher) {
             if (assignedTeacherIDs.indexOf(teacher.individualId) < 0 &&
                 teacher.teacherAuxIds.htAuxiliaries.length == 0) {
-                //debugger
                 unassignedTeachers.push({
                     name: /*chance.name({ gender: "male" }),//*/teacher.formattedName,
-                    id: teacher.individualId
+                    id: teacher.individualId,
+                    hidden: hiddenTeachers.indexOf(teacher.individualId) >= 0
                 });
             }
         });
@@ -51,12 +55,14 @@ function getDistricts(callback) {
 
 
         var unassignedHouseholds = [];
+        var hiddenHouseholdIDs = JSON.parse(localStorage.getItem("hiddenUnassignedHouseholdIDs")) || [];
         $.each(overViewScope.potentialAssignments, function (i, assignment) {
             if (assignedHouseholdIDs.indexOf(assignment.individualId) < 0 &&
                 !assignment.family.isAssignedHT) {
                 unassignedHouseholds.push({
-                    name: /*chance.name({ gender: "male" }),//*/ assignment.formattedName,
-                    id: assignment.individualId
+                    name: /*chance.name({ gender: "male" }),//*/ assignment.family.formattedCoupleName,
+                    id: assignment.individualId,
+                    hidden: hiddenHouseholdIDs.indexOf(assignment.individualId) >= 0
                 });
             }
         });
@@ -88,6 +94,8 @@ homeTeachingBoardApp.controller('HomeTeachingBoardController', function HomeTeac
         $scope.districts = JSON.parse(localStorage.getItem("districts"));
         $scope.unassignedHouseholds = JSON.parse(localStorage.getItem("unassignedHouseholds"));
         $scope.unassignedTeachers = JSON.parse(localStorage.getItem("unassignedTeachers"));
+        $scope.hiddenHouseholds = JSON.parse(localStorage.getItem("hiddenUnassignedHouseholdIDs")) || [];
+        $scope.hiddenTeachers = JSON.parse(localStorage.getItem("hiddenUnassignedTeacherIDs")) || [];
 
         $scope.save = function () {
             if (localStorage.getItem('savedDistricts')) {
@@ -103,13 +111,46 @@ homeTeachingBoardApp.controller('HomeTeachingBoardController', function HomeTeac
         }
 
         function saveBoard() {
-            var stringed = JSON.stringify($scope.districts);
-            localStorage.setItem("savedDistricts", stringed);
+            var districtsStringed = JSON.stringify($scope.districts);
+            var unassignedHouseholdsStringed = JSON.stringify($scope.unassignedHouseholds);
+            var unassignedTeachersStringed = JSON.stringify($scope.unassignedTeachers);
+
+            localStorage.setItem("savedDistricts", districtsStringed);
+            localStorage.setItem("savedUnassignedHouseholds", unassignedHouseholdsStringed);
+            localStorage.setItem("savedUnassignedTeachers", unassignedTeachersStringed);
             alert('Board saved!');
         }
 
         $scope.load = function () {
             $scope.districts = JSON.parse(localStorage.getItem('savedDistricts'));
+            $scope.unassignedHouseholds = JSON.parse(localStorage.getItem('savedUnassignedHouseholds'));
+            $scope.unassignedTeachers = JSON.parse(localStorage.getItem('savedUnassignedTeachers'));
+        }
+
+        $scope.toggleTeacherVisibilityClicked = function (teacher) {
+            teacher.hidden = !teacher.hidden;
+            if (teacher.hidden) {
+                $scope.hiddenTeachers.push(teacher.id);
+            }
+            else {
+                var index = $scope.hiddenTeachers.indexOf(teacher.id);
+                $scope.hiddenTeachers.splice(index, 1);
+            }
+
+            localStorage.setItem("hiddenUnassignedTeacherIDs", JSON.stringify($scope.hiddenTeachers));
+        }
+
+        $scope.toggleHouseholdVisibilityClicked = function (household) {
+            household.hidden = !household.hidden;
+            if (household.hidden) {
+                $scope.hiddenHouseholds.push(household.id);
+            }
+            else {
+                var index = $scope.hiddenTeachers.indexOf(household.id);
+                $scope.hiddenHouseholds.splice(index, 1);
+            }
+
+            localStorage.setItem("hiddenUnassignedHouseholdIDs", JSON.stringify($scope.hiddenHouseholds));
         }
 
         //(optional cleanup):
@@ -187,17 +228,18 @@ function viewAsBoardClicked() {
                     }
                     else if (dragScope.unassignedHousehold) {
                         sourceList = dragScope.$parent.unassignedHouseholds;
-                        destinationList = dropScope.companionship.assignments;
+                        destinationList = companionship.assignments;
                         item = dragScope.unassignedHousehold;
                     }
                     else if (dragScope.unassignedTeacher) {
                         sourceList = dragScope.$parent.unassignedTeachers;
-                        destinationList = dropScope.companionship.teachers;
+                        destinationList = companionship.teachers;
                         item = dragScope.unassignedTeacher;
                     }
 
                     destinationList.push(item);
                     sourceList.splice(dragScope.$index, 1);
+                    item.moved = true;
 
                     if (dragScope.companionship &&
                         dragScope.companionship.teachers.length == 0 &&

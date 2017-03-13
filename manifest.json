@@ -39,6 +39,6 @@
     ],
   "web_accessible_resources": [
     "html/HomeTeachingBoard.html",
-    "lib/font-awesome/fonts/*.*"
+    "node_modules/font-awesome/fonts/*.*"
   ]
   }

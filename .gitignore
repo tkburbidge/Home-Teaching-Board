@@ -1,5 +1,7 @@
 node_modules/
 typings/
+/obj/Debug
+/bin
 *.dat
 *.njsproj
 .vs/
