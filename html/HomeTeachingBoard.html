@@ -1,7 +1,5 @@
 ﻿<link href="#" rel="stylesheet" />
-
 <div id="HomeTeachingBoard" ng-controller="HomeTeachingBoardController">
-
     <div id="MenuBar">
         <div id="LeftMenuButtons">
             <div class="btn-group active">
@@ -30,18 +28,22 @@
                         </div>
                     </div>
                     <div class="htb-assignments">
-                        <div class="htb-assignment" ng-class="{ 'moved' : assignment.moved }" ng-repeat="assignment in companionship.assignments" draggable="assignment">
-                            {{assignment.name}}
+                        <div class="htb-assignment" ng-class="{
+                             'moved' : assignment.moved,
+                             'htb-very-low-visits' : assignment.visitPercentage <= 25,
+                             'htb-low-visits' : assignment.visitPercentage > 25 && assignment.visitPercentage <= 50,
+                             'htb-high-visits' : assignment.visitPercentage > 75
+                            }" ng-repeat="assignment in companionship.assignments" draggable="assignment">
+                            {{assignment.visitPercentage}}% - {{assignment.name}}
                         </div>
                     </div>
                 </div>
-                <div class="htb-companionship clearfix new" droppable="teacher assignment">
-
+                <div class="htb-companionship clearfix new text-center" droppable="teacher assignment">
+                    Drop here to add new companionship
                 </div>
             </div>
         </div>
     </div>
-
     <div id="HTBUnassignedTeachers" droppable="teacher">
         <h2>Unassigned Home Teachers</h2>
         <p>
@@ -58,7 +60,6 @@
             </a>
         </div>
     </div>
-
     <div id="HTBUnassignedHouseholds" droppable="assignment">
         <h2>Unassigned Households</h2>
         <p>
@@ -75,9 +76,7 @@
             </a>
         </div>
     </div>
-
 </div>
-
 <!-- Modal -->
 <div class="modal fade" id="HTBSaveModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
     <div class="modal-dialog modal-sm" role="document">

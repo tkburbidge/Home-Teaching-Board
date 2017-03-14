@@ -143,3 +143,15 @@ html:not(.view-as-board) #BoardWrapper {
 .hoverable:not(:hover) .hover-show {
     display: none;
 }
+
+.htb-very-low-visits {
+    color: red;
+}
+
+.htb-low-visits {
+    color: darkorange;
+}
+
+.htb-high-visits {
+    color: #20d820;
+}

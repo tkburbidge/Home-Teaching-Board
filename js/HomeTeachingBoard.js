@@ -20,6 +20,10 @@ function getDistricts(callback) {
                             return {
                                 name: /*chance.name({ gender: "male" }),//*/ assignment.individual.family.formattedCoupleName,
                                 id: assignment.individualId,
+                                //visits: assignment.visits,
+                                visitPercentage: Math.round(assignment.visits.filter(function (v) {
+                                        return v.visited;
+                                    }).length * 100 / 12)
                                 //isInCurrentAuxiliary: true
                             }
                         }),
@@ -96,6 +100,13 @@ homeTeachingBoardApp.controller('HomeTeachingBoardController', function HomeTeac
         $scope.unassignedTeachers = JSON.parse(localStorage.getItem("unassignedTeachers"));
         $scope.hiddenHouseholds = JSON.parse(localStorage.getItem("hiddenUnassignedHouseholdIDs")) || [];
         $scope.hiddenTeachers = JSON.parse(localStorage.getItem("hiddenUnassignedTeacherIDs")) || [];
+
+        //$scope.districts.forEach(function (d) {
+        //    d.companionships.forEach(function (h) {
+        //    h.visitPercentage = Math.round(h.visits.filter(function (v) {
+        //            return v.visited;
+        //        }).length * 100 / 12)
+        //});
 
         $scope.save = function () {
             if (localStorage.getItem('savedDistricts')) {
